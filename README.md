@@ -1,7 +1,9 @@
-# About
+![CWML](https://via.placeholder.com/800x500/232424/0afc77?text=CWML)
+
 CWML is brand-new JavaScript Library to extend your HTML website and add support for new possibilities:
 
-### New Tags
+![New Tags](https://via.placeholder.com/800x250/07f77f/FFFFFF?text=New+Tags)
+
 CWML is adds support for these HTML tags:
 - `<tabs>`, `<tab>`;
 - `<modal>`
@@ -42,7 +44,9 @@ Tags can be also defined via HTML:
 
 <my-tag>This is my custom tag that was defined in html!</my-tag>
 ```
-### New Attributes 
+
+![New Attributes](https://via.placeholder.com/800x250/07f77f/FFFFFF?text=New+Attributes)
+
 CWML is adds support for these tags attributes:
 - `content-from` (Load inner HTML from file)
 - More Coming soon...
@@ -57,14 +61,17 @@ var descriptor = new CwmlTagDescriptor(attrs={
 cwml.registerTag('my-tag', descriptor);
 ```
 
-### Adaptivity 
-Bootstrap-like adaptive grid via attributes, Text Size adaptivity, Overflow preventing
+![Adaptivity](https://via.placeholder.com/800x250/07f77f/FFFFFF?text=Adaptivity)
+
+Bootstrap-like adaptive grid via attributes, Text Size adaptivity, Overflow preventing.
 Coming soon...
 
-### Theming
-Dynamic theming of all tags, change theme dynamicly in JS
+![Theming](https://via.placeholder.com/800x250/07f77f/FFFFFF?text=Theming)
+
+Dynamic theming of all tags, change theme dynamicly in JS.
 Coming soon...
 
-### Translation 
-Dynamic translation of all text, define translations in JSON, change translation dynamicly in JS
+![Translation](https://via.placeholder.com/800x250/07f77f/FFFFFF?text=Translation)
+
+Dynamic translation of all text, define translations in JSON, change translation dynamicly in JS.
 Coming soon...
