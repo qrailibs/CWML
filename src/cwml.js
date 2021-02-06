@@ -3,28 +3,63 @@
 //-----------------------
 const cwml = {
     // Tags...
-    tags = [],
-    registerTag: function(tag, descriptor = new CwmlTagDescriptor()) {
-        tagEl = new CwmlTag();
-        tagEl.tag = tag;
-        tagEl.descriptor = descriptor;
+    tags: [],
+    registerTag: function(_tag, _descriptor = new CwmlTagDescriptor()) {
+        window.customElements.define(_tag.toLowerCase(), 
+            class CwmlTag extends HTMLElement {
+                tag = '';
+                descriptor = new CwmlTagDescriptor();
 
-        this.tags.push(tagEl)
+                constructor(){
+                    super(); 
+
+                    this.tag = _tag;
+                    this.descriptor = _descriptor;
+
+                    // Add observed events
+                    for(var event_name in this.descriptor.eventsObserved) {
+                        var event_func = this.descriptor.eventsObserved[event_name];
+
+                        //Default listeners
+                        if(!event_name.startsWith('__')) {
+                            this.addEventListener(event_name, event_func);
+                        }
+                    }
+                }
+
+                // Common events
+                connectedCallback() {
+                    //If event callback defined
+                    if(this.descriptor.eventsObserved['__added__'] !== undefined) {
+                        this.descriptor.eventsObserved['__added__'](this);
+                    }
+                }
+                disconnectedCallback() {
+                    //If event callback defined
+                    if(this.descriptor.eventsObserved['__removed__'] !== undefined) {
+                        this.descriptor.eventsObserved['__removed__'](this);
+                    }
+                }
+                adoptedCallback() {
+                    //If event callback defined
+                    if(this.descriptor.eventsObserved['__adopted__'] !== undefined) {
+                        this.descriptor.eventsObserved['__adopted__'](this);
+                    }
+                }
+
+                attributeChangedCallback(attrName, oldVal, newVal) {
+                    
+                }
+            }
+        );
+        this.tags.push(_tag)
     },
     isTagSupported: function(tag) {
-        var found = false;
-
-        this.tags.forEach(tagEl => {
-            if(tagEl.tag == tag) {
-                found = true;
-            }
-        });
-
-        return found;
+        return tags[tag] !== undefined;
     },
 
     // Logging...
-    log = [],
+    log: [],
     writeLog: function(type,message) {
         this.log.push({
             'type': type,
@@ -43,6 +78,9 @@ const cwml = {
         console.error('CWML Error:' + text);
         this.writeLog('error', text);
     },
+
+    // Testing...
+
 }
 
 //-----------------------
@@ -60,16 +98,16 @@ class CwmlTagDescriptor {
         this.eventsObserved[event] = func;
     }
     whenClick(func) {
-        this.whenEvent('onclick', func);
+        this.whenEvent('click', func);
     }
     whenAdded(func) {
-        this.whenEvent('_added', func);
+        this.whenEvent('__added__', func);
     }
     whenRemoved(func) {
-        this.whenEvent('_removed', func);
+        this.whenEvent('__removed__', func);
     }
     whenAdopted(func) {
-        this.whenEvent('_adopted', func);
+        this.whenEvent('__adopted__', func);
     }
 
     // Attributes...
@@ -80,49 +118,4 @@ class CwmlTagDescriptor {
 
     // Content...
     //TODO
-}
-class CwmlTag extends HTMLElement {
-    // Core
-    tag = '';
-    descriptor = new CwmlTagDescriptor();
-
-    constructor() {
-        super();
-
-        // Add observed events
-        for(var event_name in this.descriptor.eventsObserved) {
-            var event_func = this.descriptor.eventsObserved[event_name];
-
-            //Default listeners
-            if(!event_name.startsWith('_')) {
-                this.addEventListener(event_name, event_func);
-            }
-        }
-        
-        // Add observed attributes
-    }
-
-    // Common events
-    connectedCallback() {
-        //If event callback defined
-        if(this.descriptor.eventsObserved['_added'] !== undefined) {
-            this.descriptor.eventsObserved['_added'](this);
-        }
-    }
-    disconnectedCallback() {
-        //If event callback defined
-        if(this.descriptor.eventsObserved['_removed'] !== undefined) {
-            this.descriptor.eventsObserved['_removed'](this);
-        }
-    }
-    adoptedCallback() {
-        //If event callback defined
-        if(this.descriptor.eventsObserved['_adopted'] !== undefined) {
-            this.descriptor.eventsObserved['_adopted'](this);
-        }
-    }
-
-    attributeChangedCallback(attrName, oldVal, newVal) {
-        
-    }
 }
