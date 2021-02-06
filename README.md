@@ -4,7 +4,7 @@ CWML is brand-new JavaScript Library to extend your HTML website and add support
 ### New tags 
 With CWML you can use brand-new HTML tags in your webpage. 
 
-### Create own tags & components 
+### Create your own tags & components 
 You can easily define new HTML tags/components in JS by CWML functions or by writing
 Easily define tags/components via JS functions or HTML `<template>` tag.
 
@@ -12,7 +12,7 @@ Easily define tags/components via JS functions or HTML `<template>` tag.
 CFML adds support for new attributes to use, with new attributes you can simplify many things, such as
 forms, adaptivity, css properties.
 
-### Create own attributes
+### Create your own attributes
 You can easily define new attributes for you tags in JS or in HTML.
 Values of defined attributes are observed, you can create callback function to run it when attribute value is changed.
 
@@ -86,17 +86,17 @@ var descriptor = new CwmlTagDescriptor(attrs={
 cwml.registerTag('my-tag', descriptor);
 ```
 
-![Adaptivity](https://via.placeholder.com/800x250/07f77f/FFFFFF?text=Adaptivity)
+![Adaptivity](https://via.placeholder.com/800x250/07f77f/FFFFFF?text=WIP:+Adaptivity)
 
 Bootstrap-like adaptive grid via attributes, Text Size adaptivity, Overflow preventing.
 Coming soon...
 
-![Theming](https://via.placeholder.com/800x250/07f77f/FFFFFF?text=Theming)
+![Theming](https://via.placeholder.com/800x250/07f77f/FFFFFF?text=WIP:+Theming)
 
 Dynamic theming of all tags, change theme dynamicly in JS.
 Coming soon...
 
-![Translation](https://via.placeholder.com/800x250/07f77f/FFFFFF?text=Translation)
+![Translation](https://via.placeholder.com/800x250/07f77f/FFFFFF?text=WIP:+Translation)
 
 Dynamic translation of all text, define translations in JSON, change translation dynamicly in JS.
 Coming soon...
