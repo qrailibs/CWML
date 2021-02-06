@@ -1,6 +1,31 @@
 ![CWML](https://via.placeholder.com/800x500/232424/0afc77?text=CWML)
 
-CWML is brand-new JavaScript Library to extend your HTML website and add support for new possibilities:
+CWML is brand-new JavaScript Library to extend your HTML website and add support for new possibilities.
+### New tags 
+With CWML you can use brand-new HTML tags in your webpage. 
+
+### Create own tags & components 
+You can easily define new HTML tags/components in JS by CWML functions or by writing
+Easily define tags/components via JS functions or HTML `<template>` tag.
+
+### New attributes 
+CFML adds support for new attributes to use, with new attributes you can simplify many things, such as
+forms, adaptivity, css properties.
+
+### Create own attributes
+You can easily define new attributes for you tags in JS or in HTML.
+Values of defined attributes are observed, you can create callback function to run it when attribute value is changed.
+
+### Adaptivity 
+CWML is supports adaptivity by defaultm you can use `<grid>`,`<row>`,`<col>` to create adaptive layouts.
+CWML will do responsive text sizes, page overflow preventing automatically.
+
+### Dynamic Theming 
+All components of the webpage are styled by theme, you can change theme in JS dynamicly.
+
+### Dynamic Translation 
+All text of the webpage can be translated, you can define translation via JSON and apply it dynamicly in JS.
+
 
 ![New Tags](https://via.placeholder.com/800x250/07f77f/FFFFFF?text=New+Tags)
 
