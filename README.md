@@ -75,3 +75,7 @@ Coming soon...
 
 Dynamic translation of all text, define translations in JSON, change translation dynamicly in JS.
 Coming soon...
+
+## Browsers Support
+
+![Browsers Support](https://github.com/qrai/CWML/blob/main/docs/img/support.png?raw=true)
