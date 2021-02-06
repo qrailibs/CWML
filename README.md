@@ -27,7 +27,7 @@ All components of the webpage are styled by theme, you can change theme in JS dy
 All text of the webpage can be translated, you can define translation via JSON and apply it dynamicly in JS.
 
 
-![New Tags](https://via.placeholder.com/800x250/07f77f/FFFFFF?text=New+Tags)
+![Tags](https://via.placeholder.com/800x250/07f77f/FFFFFF?text=Tags)
 
 CWML is adds support for these HTML tags:
 - `<tabs>`, `<tab>`;
@@ -70,7 +70,7 @@ Tags can be also defined via HTML:
 <my-tag>This is my custom tag that was defined in html!</my-tag>
 ```
 
-![New Attributes](https://via.placeholder.com/800x250/07f77f/FFFFFF?text=New+Attributes)
+![Attributes](https://via.placeholder.com/800x250/07f77f/FFFFFF?text=Attributes)
 
 CWML is adds support for these tags attributes:
 - `content-from` (Load inner HTML from file)
