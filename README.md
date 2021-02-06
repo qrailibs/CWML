@@ -103,4 +103,6 @@ Coming soon...
 
 ## Browsers Support
 
-![Browsers Support](https://github.com/qrai/CWML/blob/main/docs/img/support.png?raw=true)
+| Feature     | Chrome | Firefox | Safari | Opera | Edge | IE | Android WebView |
+|-------------|--------|---------|--------|-------|------|----|-----------------|
+| Custom tags | v66+   | v63+    | v10.1+ | v53+  | v79+ | -  | v66+            |
