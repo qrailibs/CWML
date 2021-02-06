@@ -78,8 +78,8 @@ CWML is adds support for these tags attributes:
 
 Also you can define attributes for custom tags:
 ```js
-var descriptor = new CwmlTagDescriptor(attrs={
-  'my-attribute': function(oldVal,newVal) {
+var descriptor = new CwmlTagDescriptor(events={},attrs={
+  'my-attribute': function(el, oldVal, newVal) {
      console.log('Attribute value changed to '+newVal);
   }
 });
