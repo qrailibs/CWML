@@ -1,108 +1,131 @@
 ![CWML](https://via.placeholder.com/800x500/232424/0afc77?text=CWML)
 
 CWML is brand-new JavaScript Library to extend your HTML website and add support for new possibilities.
-### New tags 
-With CWML you can use brand-new HTML tags in your webpage. 
 
-### Create your own tags & components 
-You can easily define new HTML tags/components in JS by CWML functions or by writing
-Easily define tags/components via JS functions or HTML `<template>` tag.
+# Installation
+1. Copy code of src/cwml.min.js
+2. Create file cwml.min.js in your project dist folder
+3. Write `<script src="dist/cwml.min.js"></script>` in your .html page
 
-### New attributes 
-CFML adds support for new attributes to use, with new attributes you can simplify many things, such as
-forms, adaptivity, css properties.
-
-### Create your own attributes
-You can easily define new attributes for you tags in JS or in HTML.
-Values of defined attributes are observed, you can create callback function to run it when attribute value is changed.
-
-### Adaptivity 
-CWML is supports adaptivity by defaultm you can use `<grid>`,`<row>`,`<col>` to create adaptive layouts.
-CWML will do responsive text sizes, page overflow preventing automatically.
-
-### Dynamic Theming 
-All components of the webpage are styled by theme, you can change theme in JS dynamicly.
-
-### Dynamic Translation 
-All text of the webpage can be translated, you can define translation via JSON and apply it dynamicly in JS.
-
-
-![Tags](https://via.placeholder.com/800x250/07f77f/FFFFFF?text=Tags)
-
-CWML is adds support for these HTML tags:
-- `<tabs>`, `<tab>`;
-- `<modal>`
-- `<grid>`, `<col>`, `<row>` (Adaptive)
-- `<tree>`, `<node>`
-- `<dropdown>`
-- `<tooltip>`
-- `<progress>`
-- `<sidebar>`
-- `<breadcumb>`
-
-Also CWML allows you to **create your own Tag or Component** in just *1 line of code*:
-```js
-cwml.registerTag('my-tag', new CwmlTagDescriptor());
-```
-After you registered your custom tag you can use it in your HTML:
+# How to use
+If you need to basically **register new tag** for your HTML page:
 ```html
-<my-tag>My custom tag!</my-tag>
+<my-tag>Hello World Tag!</my-tag>
+
+<script src="dist/cwml.min.js"></script>
+<script>
+    cwml.registerTag(
+        $tag = 'my-tag'
+    );
+</script>
 ```
-Tags can be also defined via HTML:
+
+If you need to **add support of custom attributes and observe them**:
 ```html
-<template tag="my-tag">
-  <!-- Define layout of the tag... -->
-  
-  <!-- Define style of the tag... -->
-  <style scoped>
-    mytag {
-      height: 20px;
-      color: red;
-    }
-  </style>
-  
-  <!-- Define logic of the tag... -->
-  <script>
-    console.log('Tag is used in dom!');
-  </script>
-</template>
+<my-tag my-attribute="some value">Hello World Tag!</my-tag>
 
-<my-tag>This is my custom tag that was defined in html!</my-tag>
+<script src="dist/cwml.min.js"></script>
+<script>
+    cwml.registerTag(
+        $tag = 'my-tag',
+        $attrs = {
+            'my-attribute': function(el,oldVal,newVal) {
+                console.log('my-attribute was changed to '+newVal+'!');
+            }
+        }
+    );
+</script>
 ```
 
-![Attributes](https://via.placeholder.com/800x250/07f77f/FFFFFF?text=Attributes)
+Also **you can add event-handling to your tag**.
+Event will be handled for every instance of your tag, you can get handled instance by `el` argument. 
+You can handle every html event and also cwml events:
+- `__init__` event (When tag element was initialized)
+- `__added__` event (When tag element was added to document)
+- `__removed__` event (When tag element was removed from document)
+- `__adopted__` event (When tag element was moved/adopted by another element in document)
 
-CWML is adds support for these tags attributes:
-- `content-from` (Load inner HTML from file)
-- More Coming soon...
+Example of `click` event handling:
+```html
+<my-tag>Hello World Tag!</my-tag>
 
-Also you can define attributes for custom tags:
-```js
-var descriptor = new CwmlTagDescriptor(events={},attrs={
-  'my-attribute': function(el, oldVal, newVal) {
-     console.log('Attribute value changed to '+newVal);
-  }
-});
-cwml.registerTag('my-tag', descriptor);
+<script src="dist/cwml.min.js"></script>
+<script>
+    cwml.registerTag(
+        $tag = 'my-tag',
+        $attrs = {},
+        $events = {
+            click: function(el) {
+                console.log('my-tag was clicked!');
+            }
+        },
+    );
+</script>
 ```
 
-![Adaptivity](https://via.placeholder.com/800x250/07f77f/FFFFFF?text=WIP:+Adaptivity)
+If you need to **define style of the element** you can use `$props` to set css properties of the tag. Example:
+```html
+<my-tag>Hello World Tag!</my-tag>
 
-Bootstrap-like adaptive grid via attributes, Text Size adaptivity, Overflow preventing.
-Coming soon...
+<script src="dist/cwml.min.js"></script>
+<script>
+    cwml.registerTag(
+        $tag = 'my-tag',
+        $attrs = {},
+        $events = {},
+        $props = {
+            'color': 'red',
+            'background-color': 'black'
+        }
+    );
+</script>
+```
 
-![Theming](https://via.placeholder.com/800x250/07f77f/FFFFFF?text=WIP:+Theming)
+Also **you can define inner HTML of your tag** aka **template of the tag**. That template of tag is defined by specifying `$content` attribute. You can receive attributes of element with `{name-of-attribute}` and initial inner with `{inner}`. Example:
+Example:
+```html
+<my-tag my-attribute="some value">My initial inner</my-tag>
 
-Dynamic theming of all tags, change theme dynamicly in JS.
-Coming soon...
+<script src="dist/cwml.min.js"></script>
+<script>
+    cwml.registerTag(
+        $tag = 'my-tag',
+        $attrs = {}, // we dont have to specify attributes if we dont track them
+        $events = {},
+        $props = {},
+        $content = `
+            <h1>{inner} (Attribute value:{my-attribute})</h1>
+        `
+    );
+</script>
+```
 
-![Translation](https://via.placeholder.com/800x250/07f77f/FFFFFF?text=WIP:+Translation)
+Content of custom tag works fine and `my-attribute` value assigned. But what if we wil change `my-attribute` dynamicly? - Content will not update. That's because our tag isn't reactive, but **you can make it reactive**! Example:
+```html
+<my-tag my-attribute="some value" cwml-dynamic>My initial inner</my-tag>
 
-Dynamic translation of all text, define translations in JSON, change translation dynamicly in JS.
-Coming soon...
+<script src="dist/cwml.min.js"></script>
+<script>
+    cwml.registerTag(
+        $tag = 'my-tag',
+        $attrs = ['my-attribute'], // Specify what attributes should be observed for dynamic updates
+        $events = {},
+        $props = {},
+        $content = `
+            <h1>{inner} (Attribute value:{my-attribute})</h1>
+        `
+    );
+</script>
+```
 
-## Browsers Support
+# Browsers Support
 
 | Feature     | Chrome | Firefox | Safari | Opera | Edge | IE | Android WebView |
 |-------------|--------|---------|--------|-------|------|----|-----------------|
 | Custom tags | v66+   | v63+    | v10.1+ | v53+  | v79+ | -  | v66+            |
+
+You can use web-components polyfill also.
+
+# Plans
+- [ ] Registration and observing of default tag attributes
+- [ ] Built-in custom tags
