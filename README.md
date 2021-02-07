@@ -1,6 +1,6 @@
 ![CWML](https://via.placeholder.com/800x500/232424/0afc77?text=CWML)
 
-CWML is brand-new JavaScript Library to extend your HTML website and add support for new possibilities.
+CWML is brand-new JavaScript micro-framework to extend your HTML website and add support for defining custom reactive tags.
 
 # Installation
 1. Copy code of src/cwml.min.js
