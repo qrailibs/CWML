@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>CWML</title>
+  <meta name="description" content="CWML Testings">
+  <meta name="author" content="qrai">
+</head>
+<body>
+    <test-tag my-attr="some val">Hello world, my tag!</test-tag>
+
+    <script src="./src/cwml.min.js"></script>
+    <script>
+        cwml.registerTag(
+            $tag = 'test-tag',
+            $attrs = {
+                'my-attr': function(el,oldVal,newVal) {
+                    console.log('my-attr is set to '+newVal);
+                }
+            },
+            $events = {},
+            $props = {},
+            $content = ``
+        );
+    </script>
+</body>
+</html>
