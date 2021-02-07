@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>CWML</title>
+  <meta name="description" content="CWML Testings">
+  <meta name="author" content="qrai">
+</head>
+<body>
+    <test-tag>Hello world, my tag!</test-tag>
+
+    <script src="./src/cwml.min.js"></script>
+    <script>
+        cwml.registerTag(
+            $tag = 'test-tag',
+            $attrs = {},
+            $events = {},
+            $props = {
+                'color': 'white',
+                'background-color': 'black'
+            },
+            $content = ``
+        );
+    </script>
+</body>
+</html>
