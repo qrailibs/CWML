@@ -8,9 +8,9 @@
   <meta name="author" content="qrai">
 </head>
 <body>
-    <test-tag my-attr="value 1" cwml-dynamic>my-attr is </test-tag>
+    <test-tag my-attr="1" id="some-el" cwml-dynamic>my-attr is </test-tag>
 
-    <script src="./src/cwml.min.js"></script>
+    <script src="src/cwml.min.js"></script>
     <script>
         cwml.registerTag(
             $tag = 'test-tag',
@@ -21,6 +21,15 @@
                 <h1>{inner}{my-attr}</h1>
             `
         );
+      
+        increase();
+        function increase() {
+            setTimeout(function () {
+                let el = document.getElementById('some-el');
+                el.attributes['my-attr'].value = parseInt(el.attributes['my-attr'].value) + 1;
+                increase();
+            }, 1000);
+        }
     </script>
 </body>
 </html>
