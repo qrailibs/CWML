@@ -1,6 +1,5 @@
 var cwmlStyle = document.createElement('style');
 cwmlStyle.id = 'cwml-style'
-cwmlStyle.appendChild(document.createTextNode('')); 
 document.getElementsByTagName("head")[0].appendChild(cwmlStyle);
 
 const cwml = {
@@ -8,19 +7,18 @@ const cwml = {
     registerTag: function($tag, $attrs={}, $events={}, $props={}, $content=``) {
         window.customElements.define($tag.toLowerCase(), 
             class CwmlTag extends HTMLElement { 
-                attrs = {};
-                events = {};
-                props = {};
-                content = ``;
+                attrs = {}; //tag observed attributes
+                events = {}; //tag observed events
+                content = ``; //tag content template
+                initialInner = ``; //initial inner html of current dom element
 
                 constructor(){
+                    //init
                     super(); 
-
                     this.attrs = $attrs;
                     this.events = $events;
-                    this.props = $props;
                     this.content = $content;
-
+                    this.initialInner = this.innerHTML;
                     //events
                     for(var event_name in this.events) {
                         var event_func = this.events[event_name];
@@ -28,24 +26,17 @@ const cwml = {
                             this.addEventListener(event_name, function(e) { event_func(e.target); } );
                         }
                     }
-                    //props
-                    if(this.props.length > 0) {
-                        var css = $tag + ' {';
-                        for(var prop in this.props) {
-                            css += prop+':'+this.props[prop]+';';
-                        }
-                        css += '}\n';
-                        document.getElementById('cwml-style').innerText += css;
-                    }
                     //content
                     if(this.content != '') {
-                        let inner = this.innerHTML;
-                        this.innerHTML = this.content
-                            .replaceAll('{inner}',inner);
-                        for(var attr in this.attributes) {
-                            this.innerHTML.replaceAll('{'+attr.name+'}', attr.value)
+                        let _content = this.content.replaceAll('{inner}', this.initialInner);
+                        if(this.hasAttributes()) {
+                            for(var attr in this.attributes) {
+                                _content = _content.replaceAll('{'+this.attributes[attr].name+'}', this.attributes[attr].textContent)
+                            }
                         }
+                        this.innerHTML = _content;
                     }
+                    this.events['__init__'] !== undefined ? this.events['__init__'](this) : undefined;
                 }
 
                 connectedCallback() { this.events['__added__'] !== undefined ? this.events['__added__'](this) : undefined; }
@@ -53,18 +44,45 @@ const cwml = {
                 adoptedCallback() { this.events['__adopted__'] !== undefined ? this.events['__adopted__'](this) : undefined; }
 
                 static get observedAttributes() {
-                    return Object.keys($attrs);
+                    let observed = [];
+                    // without/with observers
+                    if($attrs.constructor == Array) { observed = $attrs; }
+                    else if($attrs.constructor == Object) { observed = Object.keys($attrs); }
+                    //observe cwml-dynamic attr
+                    observed.push('cwml-dynamic');
+                    return observed;
                 }
                 attributeChangedCallback(attrName, oldVal, newVal) {
-                    this.attrs[attrName] !== undefined ? this.attrs[attrName](this, oldVal, newVal) : undefined;
+                    // call attrs observers
+                    if(this.attrs.constructor == Object) {
+                        this.attrs[attrName] !== undefined ? this.attrs[attrName](this, oldVal, newVal) : undefined;
+                    }
+                    // reactive content
+                    if(this.hasAttribute('cwml-dynamic')) {
+                        let _content = this.content.replaceAll('{inner}', this.initialInner);
+                        for(var attr in this.attributes) {
+                            _content = _content.replaceAll('{'+this.attributes[attr].name+'}', this.attributes[attr].value)
+                        }
+                        this.innerHTML = _content;
+                    }
                 }
             }
         );
 
+        //props
+        var css = $tag + ' {';
+        for(var prop in $props) {
+            css += prop+':'+$props[prop]+';';
+        }
+        if(!css.includes('display:')) { css += 'display: block;'; }
+        css += '}\n';
+        document.getElementById('cwml-style').innerText += css;
+        
         this.tags[$tag] = {
             attributes: Object.keys($attrs),
             events: Object.keys($events),
             props: Object.keys($props),
+            content: $content
         }
     },
 
