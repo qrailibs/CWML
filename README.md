@@ -124,7 +124,8 @@ Content of custom tag works fine and `my-attribute` value assigned. But what if 
 |-------------|--------|---------|--------|-------|------|----|-----------------|
 | Custom tags | v66+   | v63+    | v10.1+ | v53+  | v79+ | -  | v66+            |
 
-You can use web-components polyfill also.
+### Global support: 94.1%
+But you can use web-components polyfill also.
 
 # Plans
 - [ ] Registration and observing of default tag attributes
