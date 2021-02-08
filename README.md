@@ -90,7 +90,7 @@ Example:
 <script>
     cwml.registerTag(
         $tag = 'my-tag',
-        $attrs = {}, // we dont have to specify attributes if we dont track them
+        $attrs = {}, // we dont have to specify attributes if we dont need to observe them
         $events = {},
         $props = {},
         $content = `
@@ -102,13 +102,13 @@ Example:
 
 Content of custom tag works fine and `my-attribute` value assigned. But what if we wil change `my-attribute` dynamicly? - Content will not update. That's because our tag isn't reactive, but **you can make it reactive**! Example:
 ```html
-<my-tag my-attribute="some value" cwml-dynamic>My initial inner</my-tag>
+<my-tag my-attribute="some value">My initial inner</my-tag>
 
 <script src="dist/cwml.min.js"></script>
 <script>
     cwml.registerTag(
         $tag = 'my-tag',
-        $attrs = ['my-attribute'], // Specify what attributes should be observed for dynamic updates
+        $attrs = ['my-attribute'], // specify attributes, they will be observed
         $events = {},
         $props = {},
         $content = `
