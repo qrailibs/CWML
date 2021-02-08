@@ -1,5 +1,5 @@
-var cwmlStyle = document.createElement('style');
-cwmlStyle.id = 'cwml-style'
+var cwmlStyle = document.createElement('style'); 
+cwmlStyle.id = 'cwml-style';
 document.getElementsByTagName("head")[0].appendChild(cwmlStyle);
 
 const cwml = {
@@ -36,7 +36,6 @@ const cwml = {
                         }
                         this.innerHTML = _content;
                     }
-                    this.events['__init__'] !== undefined ? this.events['__init__'](this) : undefined;
                 }
 
                 connectedCallback() { this.events['__added__'] !== undefined ? this.events['__added__'](this) : undefined; }
@@ -58,7 +57,7 @@ const cwml = {
                         this.attrs[attrName] !== undefined ? this.attrs[attrName](this, oldVal, newVal) : undefined;
                     }
                     // reactive content
-                    if(this.hasAttribute('cwml-dynamic')) {
+                    if(!this.hasAttribute('cwml-dynamic') || this.attributes['cwml-dynamic'] == 'false') {
                         let _content = this.content.replaceAll('{inner}', this.initialInner);
                         for(var attr in this.attributes) {
                             _content = _content.replaceAll('{'+this.attributes[attr].name+'}', this.attributes[attr].value)
@@ -78,12 +77,14 @@ const cwml = {
         css += '}\n';
         document.getElementById('cwml-style').innerText += css;
         
+        //init
         this.tags[$tag] = {
             attributes: Object.keys($attrs),
             events: Object.keys($events),
             props: Object.keys($props),
             content: $content
         }
+        $events['__init__'] !== undefined ? $events['__init__'](this) : undefined;
     },
 
     isTagSupported: function(tag) {
