@@ -40,7 +40,7 @@ If you need to **add support of custom attributes and observe them**:
 Also **you can add event-handling to your tag**.
 Event will be handled for every instance of your tag, you can get handled instance by `el` argument. 
 You can handle every html event and also cwml events:
-- `__init__` event (When tag element was initialized)
+- `__init__` event (When tag  was initialized/registered)
 - `__added__` event (When tag element was added to document)
 - `__removed__` event (When tag element was removed from document)
 - `__adopted__` event (When tag element was moved/adopted by another element in document)
