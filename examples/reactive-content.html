@@ -8,13 +8,13 @@
   <meta name="author" content="qrai">
 </head>
 <body>
-    <test-tag my-attr="1" id="some-el" cwml-dynamic>my-attr is </test-tag>
+    <test-tag my-attr="1" id="some-el">my-attr is </test-tag>
 
     <script src="src/cwml.min.js"></script>
     <script>
         cwml.registerTag(
             $tag = 'test-tag',
-            $attrs = ['my-attr'],
+            $attrs = ['my-attr'], // specify reactive attributes, they will be observed
             $events = {},
             $props = {},
             $content = `
@@ -23,6 +23,7 @@
         );
       
         increase();
+        //increase 'my-attr' value every second, text of tag will be updated as its reactive
         function increase() {
             setTimeout(function () {
                 let el = document.getElementById('some-el');
