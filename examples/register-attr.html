@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>CWML</title>
+  <meta name="description" content="CWML Testings">
+  <meta name="author" content="qrai">
+</head>
+<body>
+    <h1 my-attribute="1">Header tag</h1>
+
+    <script src="./src/cwml.min.js"></script>
+    <script>
+        cwml.registerAttr(
+            $query = 'h1', // what elements will support that tag (css-like query)
+            $attr = 'my-attribute',
+            $callback = function(el,newVal) {
+                console.log('my-attribute value was changed to ' + newVal);
+            },
+        );
+    </script>
+</body>
+</html>
