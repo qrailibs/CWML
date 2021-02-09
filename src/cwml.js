@@ -1,10 +1,19 @@
-var cwmlStyle = document.createElement('style'); 
-cwmlStyle.id = 'cwml-style';
-document.getElementsByTagName("head")[0].appendChild(cwmlStyle);
-
 const cwml = {
+    // Initialization...
+    is_initialized: false,
+    init: function() {
+        var cwmlStyle = document.createElement('style'); 
+        cwmlStyle.id = 'cwml-style';
+        document.getElementsByTagName("head")[0].appendChild(cwmlStyle);
+
+        this.is_initialized = true;
+    },
+
+    // Custom tags...
     tags: {},
     registerTag: function($tag, $attrs={}, $events={}, $props={}, $content=``) {
+        if(!this.is_initialized) { this.init(); }
+
         window.customElements.define($tag.toLowerCase(), 
             class CwmlTag extends HTMLElement { 
                 attrs = {}; //tag observed attributes
@@ -67,17 +76,14 @@ const cwml = {
                 }
             }
         );
-
         //props
-        var css = $tag + ' {';
-        for(var prop in $props) {
-            css += prop+':'+$props[prop]+';';
-        }
-        if(!css.includes('display:')) { css += 'display: block;'; }
-        css += '}\n';
-        document.getElementById('cwml-style').innerText += css;
-        
-        //init
+        var css = Object.keys($props).map(function(prop) {
+            return `${prop}: ${$props[prop]};`;
+        }).join('');
+        css += css.includes('display:') ? '' : 'display: block;';
+        document.getElementById('cwml-style').innerText += `${$tag} {${css}}\n`;
+
+        //initialize
         this.tags[$tag] = {
             attributes: Object.keys($attrs),
             events: Object.keys($events),
@@ -86,11 +92,44 @@ const cwml = {
         }
         $events['__init__'] !== undefined ? $events['__init__'](this) : undefined;
     },
-
     isTagSupported: function(tag) {
         return this.tags[tag] !== undefined;
     },
-    isAttrSupported: function(tag,attr) {
-        return this.tags[tag] !== undefined ? this.tags[tag].attributes.includes(attr) : false;
-    }
+
+    // Custom attributes...
+    attrs: {},
+    registerAttr: function($query, $attr, $callback=function(el,newVal){}) {
+        if(!this.is_initialized) { this.init(); }
+        
+        var targets = document.querySelectorAll($query);
+        targets.forEach(target => {
+            //callback if attr value set
+            if(target.hasAttribute($attr)) {
+                $callback(target, target.attributes[$attr].value);
+            }
+            //observe attributes
+            new MutationObserver((mutations,observer) => {
+                for(let mutation of mutations) {
+                    if(mutation.type == 'attributes' && mutation.attributeName == $attr) {
+                        $callback(mutation.target, mutation.target.attributes[$attr].value);
+                    }
+                }
+            }).observe(target,{attributes:true});
+        });
+        //initialize
+        this.attrs[$attr] = {
+            query: $query
+        };
+    },
+    isAttrSupported: function(attr) {
+        //check custom attributes
+        if(this.attrs[attr] !== undefined) { return true; }
+        //check custom tags attributes
+        this.tags.forEach(tag => {
+            if(tag.attributes.includes(attr)) {
+                return true;
+            }
+        });
+        return false;
+    },
 }
