@@ -14,23 +14,26 @@ If you need to basically **register new tag** for your HTML page:
 
 <script src="dist/cwml.min.js"></script>
 <script>
+    cwml.init();
     cwml.registerTag(
         $tag = 'my-tag'
     );
 </script>
 ```
+**NOTE: place your &lt;script&gt; tag at bottom of the &lt;body&gt;**
 
-If you need to **add support of custom attributes and observe them**:
+If you need to **add support of custom attributes to your tag**:
 ```html
 <my-tag my-attribute="some value">Hello World Tag!</my-tag>
 
 <script src="dist/cwml.min.js"></script>
 <script>
+    cwml.init();
     cwml.registerTag(
         $tag = 'my-tag',
         $attrs = {
             'my-attribute': function(el,oldVal,newVal) {
-                console.log('my-attribute was changed to '+newVal+'!');
+                console.log('my-attribute was changed to ' + newVal + '!');
             }
         }
     );
@@ -51,6 +54,7 @@ Example of `click` event handling:
 
 <script src="dist/cwml.min.js"></script>
 <script>
+    cwml.init();
     cwml.registerTag(
         $tag = 'my-tag',
         $attrs = {},
@@ -69,6 +73,7 @@ If you need to **define style of the element** you can use `$props` to set css p
 
 <script src="dist/cwml.min.js"></script>
 <script>
+    cwml.init();
     cwml.registerTag(
         $tag = 'my-tag',
         $attrs = {},
@@ -88,6 +93,7 @@ Example:
 
 <script src="dist/cwml.min.js"></script>
 <script>
+    cwml.init();
     cwml.registerTag(
         $tag = 'my-tag',
         $attrs = {}, // we dont have to specify attributes if we dont need to observe them
@@ -106,6 +112,7 @@ Content of custom tag works fine and `my-attribute` value assigned. But what if 
 
 <script src="dist/cwml.min.js"></script>
 <script>
+    cwml.init();
     cwml.registerTag(
         $tag = 'my-tag',
         $attrs = ['my-attribute'], // specify attributes, they will be observed
@@ -114,6 +121,23 @@ Content of custom tag works fine and `my-attribute` value assigned. But what if 
         $content = `
             <h1>{inner} (Attribute value:{my-attribute})</h1>
         `
+    );
+</script>
+```
+
+Also CWML allows you to register attributes for existing HTML tags, example:
+```html
+<h1 my-attribute="some value">Some header</h1>
+
+<script src="dist/cwml.min.js"></script>
+<script>
+    cwml.init();
+    cwml.registerAttr(
+        $query = 'h1', // what elements will support that tag (css-like query)
+        $attr = 'my-attribute',
+        $callback = function(el,newVal) {
+            console.log('my-attribute value was changed to ' + newVal);
+        },
     );
 </script>
 ```
