@@ -66,7 +66,7 @@ const cwml = {
                         this.attrs[attrName] !== undefined ? this.attrs[attrName](this, oldVal, newVal) : undefined;
                     }
                     // reactive content
-                    if(!this.hasAttribute('cwml-dynamic') || this.attributes['cwml-dynamic'] == 'false') {
+                    if(this.content != '' && (!this.hasAttribute('cwml-dynamic') || this.attributes['cwml-dynamic'] == 'false')) {
                         let _content = this.content.replaceAll('{inner}', this.initialInner);
                         for(var attr in this.attributes) {
                             _content = _content.replaceAll('{'+this.attributes[attr].name+'}', this.attributes[attr].value)
