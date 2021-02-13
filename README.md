@@ -152,5 +152,4 @@ Also CWML allows you to register attributes for existing HTML tags, example:
 But you can use web-components polyfill also.
 
 # Plans
-- [ ] Registration and observing of default tag attributes
 - [ ] Built-in custom tags
