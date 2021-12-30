@@ -2,7 +2,7 @@
 
 CWML is brand-new JavaScript micro-framework to extend HTML and add support for defining custom reactive tags. Micro-framework takes only 3kb and doesn't requires any compilation.
 
-**BRAND-NEW CWML 2.0 IS OUT HERE - [CWML2](https://github.com/qrai/CWML2)**
+**CWML 2.0 is here - [CWML2](https://github.com/qrai/CWML2)**
 
 # Installation
 1. Copy code of src/cwml.min.js
@@ -152,6 +152,3 @@ Also CWML allows you to register attributes for existing HTML tags, example:
 
 ### Global support: 94.1%
 But you can use web-components polyfill also.
-
-# Plans
-- [ ] Built-in custom tags
